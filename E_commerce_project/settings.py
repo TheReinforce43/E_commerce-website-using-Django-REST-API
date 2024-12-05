@@ -50,9 +50,10 @@ DJANGO_DEFAULT_APPS= [
 # Custom apps
 
 CUSTOM_APPS = [
-     'rest_framework',
+    'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    
 ]
 
 # Project related apps
@@ -124,6 +125,12 @@ REST_FRAMEWORK = {
 }
 
 
+AUTHENTICATION_BACKENDS = [
+    'User.backends.EmailBackend',  # Replace `your_app` with the app name
+    'django.contrib.auth.backends.ModelBackend',  # Keep the default backend
+]
+
+
 
 # Configure postgreSQL database 
 
@@ -174,7 +181,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Base url to serve media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -183,7 +197,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 
-
+# add here simple jwt configuration
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=180),  # set the access token lifetime
@@ -217,5 +231,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
+AUTH_USER_MODEL = 'User.User'
 
