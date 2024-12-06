@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from User.models import User 
+# from User.models import User 
 
 # add related modules for authentication
 from rest_framework_simplejwt.tokens import RefreshToken 
@@ -18,22 +18,22 @@ class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
 
-        fields =  ['name', 'email', 'phone_number', 'password', 'profile_image','groups']
+        fields =  ['name', 'email', 'phone_number','is_staff', 'password', 'profile_image','groups']
         # extra_kwargs = {'password': {'write_only': True}}
 
 
-        def create(self,validated_data):
-            password= validated_data.pop('password')
-            groups = validated_data.pop('groups', [])
-            user= User.objects.create_user(**validated_data)
-            user.set_password(password)   #has the password
-            user.save()
+    def create(self,validated_data):
+        password= validated_data.pop('password')
+        groups = validated_data.pop('groups', [])
+        user= User.objects.create_user(**validated_data)
+        user.set_password(password)   #has the password
+        user.save()
 
 
-              # Add user to groups if any
-            user.groups.set(groups)
-            
-            return user
+        # Add user to groups if any
+        user.groups.set(groups)
+        
+        return user
          
 
 
@@ -92,5 +92,5 @@ class GetUserSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        odel = User 
+        model = User 
         fields='__all__'
